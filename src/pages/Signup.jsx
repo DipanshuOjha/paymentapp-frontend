@@ -7,6 +7,10 @@ import { SubHeading } from "../component/subheading";
 import axios from 'axios'
 import { useNavigate } from "react-router-dom";
 
+// eslint-disable-next-line no-undef
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
+
+
 export function Signup(){
         const [firstName,setFirstName] = useState("");
         const [lastName,setLastName] = useState("");
@@ -35,7 +39,7 @@ export function Signup(){
                 }} type="password" label={"Password"} placeholder={"$$$$$$$$"}></InputBox>
                 <div className="pt-4">
                     <Button onClick={async ()=>{
-                           const response= await axios.post('http://localhost:3000/api/v1/user/signup',{
+                           const response= await axios.post(`${BACKEND_URL}/api/v1/user/signup`,{
                                   username,
                                   firstName,
                                   lastName,

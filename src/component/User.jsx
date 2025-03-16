@@ -3,13 +3,16 @@ import { useNavigate } from "react-router-dom"
 import axios from "axios";
 import { useEffect, useState } from "react";
 
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
+
+
 export function User(){
        const [users,setUser] = useState([]);
        const [filter,setFilter] = useState('');
        const name = localStorage.getItem('firstName');
        
        useEffect(()=>{
-           axios.get('http://localhost:3000/api/v1/user/bulk?filter='+filter).then((response)=>{
+           axios.get(`${BACKEND_URL}/api/v1/user/bulk?filter=`+filter).then((response)=>{
                  setUser(response.data.user)
            })
        },[filter])

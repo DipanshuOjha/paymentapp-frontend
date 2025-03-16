@@ -7,6 +7,9 @@ import { SubHeading } from "../component/subheading";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
+
+
 export function Signin(){
        const [username,setUsername] = useState('')
        const [password,setPassword] = useState('')
@@ -26,15 +29,24 @@ export function Signin(){
                       setPassword(e.target.value)
             }}type="text" label={"Password"} placeholder={"$$$$$$$$"}></InputBox>
             <div className="pt-4">
-                <Button onClick={async()=>{
-                       const response = await axios.post('http://localhost:3000/api/v1/user/signin',{
-                          username,
-                          password
-                       })
-                       localStorage.setItem('token',response.data.token)
-                       localStorage.setItem('firstName',response.data.firstName);
-                       navigate('/dashboard')
-                }} label={"Sign in"}></Button>
+                <Button onClick={
+                    async () => {
+                        try {
+                            const response = await axios.post(`${BACKEND_URL}/api/v1/user/signin`, {
+                                username,
+                                password,
+                            });
+                    
+                            localStorage.setItem("token", response.data.token);
+                            localStorage.setItem("firstName", response.data.firstName);
+                    
+                            navigate("/dashboard");
+                        } catch (error) {
+                            console.error("Sign-in failed:", error.response?.data?.message || error.message);
+                            alert(error.response?.data?.message || "An error occurred. Please try again.");
+                        }
+                    }
+                    } label={"Sign in"}></Button>
             </div>
             <div className="flex justify-center">
             <BottomWarning label={"Don't have an account?"} buttontext={"Sign up"} to="/signup" ></BottomWarning>
